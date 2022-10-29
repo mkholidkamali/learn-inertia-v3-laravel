@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Photo;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,4 +33,12 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+});
+Route::get('photos', function() {
+    return Inertia::render('Guest/Photos', [
+        'photos'      => Photo::all(),
+        'canLogin'    => Route::has('login'),
+        'canRegister' => Route::has('register')
+    ]);
 });
