@@ -25,16 +25,26 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return Inertia::render('Dashboard');
+//     })->name('dashboard');
+// });
+
+/**
+ * Custom
+ */
+
+Route::middleware(['auth:sanctum', 'verified', config('jetstream.auth_session')])->prefix('admin')->name('admin.')->group(function() {
+    Route::get('/', function() {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-
 });
+
 Route::get('photos', function() {
     return Inertia::render('Guest/Photos', [
         'photos'      => Photo::all(),
